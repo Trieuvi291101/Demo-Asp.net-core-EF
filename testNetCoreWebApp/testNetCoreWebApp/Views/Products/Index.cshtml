@@ -1,0 +1,92 @@
+﻿@model IEnumerable<testNetCoreWebApp.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@using testNetCoreWebApp.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4 class="m-t-0 header-title mb-4" style="color: darkred; text-align: center"><b>Danh sách sản phẩm</b></h4>
+<div class=" col-12 flex-row" style="height: 70px; border-radius: 10px; padding: 10px; margin: 10px; background-color: lightgray">
+    <div class="flex-row" style="margin: 0 auto;">
+        <div class="col-4">
+            <button style="background-color: cadetblue; border-radius: 2px; border: 1px solid white; " type="button" class="btn float-left col-5">
+                <a style="text-decoration-line:none; color: white" asp-action="Create">Thêm sản phẩm</a>
+            </button>
+        </div>
+
+
+        @using (Html.BeginForm())
+        {
+            <div class="input-group col-8" style="padding: 5px">
+                @Html.TextBox("kw")
+                <input type="submit" value="Tìm kiếm" class="btn btn-success col-2" />
+            </div>
+        }
+
+
+    </div>
+
+</div>
+
+
+<table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+    <thead>
+        <tr>
+            <th>Tên sản phẩm </th>
+            <th> Mô tả </th>
+            <th> Đơn giá</th>
+            <th> Phân loại sản phâm </th>
+            <th> Ảnh</th>
+            <th>Ngày thêm</th>
+            <th>Danh mục</th>
+            <th> Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td class=" col-2">
+                    <div>
+                        <button type="button" class="btn btn-info waves-effect width-md waves-light"> <a style="text-decoration-line:none; color: white" asp-action="Details" asp-route-id="@item.Id">Detail</a></button>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+                            <button type="button" class="btn btn-success waves-effect width-md waves-light"> <a style="text-decoration-line:none; color: white" asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
+                            <button type="button" class="btn btn-danger waves-effect width-md waves-light"><a style="text-decoration-line:none; color: white" asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                        }
+                        </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

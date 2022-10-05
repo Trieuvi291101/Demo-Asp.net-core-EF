@@ -21,8 +21,6 @@ namespace testNetCoreWebApp.Models
         public string Phone { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string UserRole { get; set; }
-
         public virtual ICollection<SaleOrder> SaleOrder { get; set; }
   
     }

@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using testNetCoreWebApp.Data;
 using testNetCoreWebApp.Models;
+using testNetCoreWebApp.Areas.Identity.Data;
+using Unity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace testNetCoreWebApp.Controllers
 {
@@ -168,37 +171,6 @@ namespace testNetCoreWebApp.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
-        }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(User model)
-        {
-            if (ModelState.IsValid)
-            {
-                String pw = GetMD5(model.Password);
-                var User = from m in _context.User select m;
-                User = User.Where(s => s.Username.Contains(model.Username));
-                if (User.Count() != 0)
-                {
-                    if (User.First().Password == pw)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-            }
-            ViewBag.error = "Login failed";
-            return View();
-        }
-
-        public IActionResult Logout()
-        {
-            return RedirectToAction("Login");
         }
 
         //create a string MD5

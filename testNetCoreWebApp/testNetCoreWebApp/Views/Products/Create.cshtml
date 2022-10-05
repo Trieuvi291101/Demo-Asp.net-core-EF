@@ -1,0 +1,59 @@
+﻿@model testNetCoreWebApp.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<h4>Thêm sản phẩm mới</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form class="form-horizontal" enctype ="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label class="control-label">Tên sản phẩm</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Mô tả</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Giá</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Loại sản phẩm</label>
+                <input asp-for="Manufacturer" class="form-control" />
+                <span asp-validation-for="Manufacturer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ảnh</label>
+                <input asp-for="ThumbnailImage" eccept="image/*" class="form-control" />
+                <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label class="control-label">Danh mục sản phẩm</label>
+                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Về trang danh sách sản phẩm</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

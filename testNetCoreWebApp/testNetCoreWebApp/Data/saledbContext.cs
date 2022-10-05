@@ -188,11 +188,6 @@ namespace testNetCoreWebApp.Data
                     .HasColumnName("phone")
                     .HasMaxLength(45);
 
-                entity.Property(e => e.UserRole)
-                    .IsRequired()
-                    .HasColumnName("user_role")
-                    .HasMaxLength(10);
-
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username")
