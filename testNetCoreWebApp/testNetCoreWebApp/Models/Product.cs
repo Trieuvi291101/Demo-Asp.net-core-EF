@@ -30,5 +30,6 @@ namespace testNetCoreWebApp.Models
 
         [NotMapped]
         public IFormFile ThumbnailImage { get; set; }
+
     }
 }

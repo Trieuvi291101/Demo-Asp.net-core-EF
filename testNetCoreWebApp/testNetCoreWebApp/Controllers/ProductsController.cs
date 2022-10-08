@@ -9,11 +9,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using testNetCoreWebApp.Data;
 using testNetCoreWebApp.Models;
+using Microsoft.AspNetCore.Http;
+using  Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.Extensions;
+using testNetCoreWebApp.Helpers;
+using System.Transactions;
 
 namespace testNetCoreWebApp.Controllers
 {
     public class ProductsController : Controller
     {
+        
         private readonly saledbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
         public ProductsController(saledbContext context, IWebHostEnvironment hostEnvironment)
@@ -25,6 +31,7 @@ namespace testNetCoreWebApp.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string kw)
         {
+            
             var saledbContext = _context.Product.Include(p => p.Category);
 
             if (!String.IsNullOrEmpty(kw))
@@ -225,9 +232,169 @@ namespace testNetCoreWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        public async Task<IActionResult> Store(string kw)
+        {
+            var saledbContext = _context.Product.Include(p => p.Category);
+
+            if (!String.IsNullOrEmpty(kw))
+            {
+                var search = saledbContext.Select(s => s);
+                search = search.Where(s => s.Name == kw);
+                return View(search);
+            }
+
+            return View(await saledbContext.ToListAsync());
+        }
+         public List<ItemCart> Carts
+		{
+			get
+			{
+                var cart = HttpContext.Session.Get<List<ItemCart>>("gioHang");
+				if (cart == default(List<ItemCart>))
+				{
+					cart = new List<ItemCart>();
+				}
+				return cart;
+			}
+
+		}
+        public async Task<IActionResult> CartIndex()
+		{
+            ViewData["Null"] = "không có sản phẩm nào!!!";
+            ViewData["countCart"] = countCart();
+            ViewData["totalCart"] = totalCart();
+            return View(Carts);
+		}
+		public async Task<IActionResult> AddToCart(int id , int quantity)
+        {
+            var myCart = Carts;
+
+            var item = myCart.SingleOrDefault(s => s.idCart == id);
+            if(item == null)
+			{
+                var pro = _context.Product.SingleOrDefault(p => p.Id == id);
+                item = new ItemCart
+                {
+                    idCart = id,
+                    NameCart = pro.Name,
+                    Image = pro.Image,
+                    priceCart = pro.Price,
+                    quantity = quantity
+                };
+                myCart.Add(item);
+			}
+			else
+			{
+                item.quantity += quantity;
+			}
+            HttpContext.Session.Set("gioHang", myCart);
+
+            return RedirectToAction("CartIndex");
+        }
+        public ActionResult ClearCart()
+        {
+            List<ItemCart> gioHang = Carts;
+            HttpContext.Session.Remove("gioHang");
+            return RedirectToAction("CartIndex");
+        }
+
+        public int countCart()
+		{
+            int n = 0;
+            var data = HttpContext.Session.Get<List<ItemCart>>("gioHang");
+            if(data != null)
+			{
+                n = data.Sum(s => s.quantity);
+			}
+            return n;
+        }
+        public decimal totalCart()
+		{
+            decimal d = 0;
+            var data = HttpContext.Session.Get<List<ItemCart>>("gioHang");
+            if (data != null)
+            {
+                d = (decimal)data.Sum(s => s.total);
+            }
+            return d;
+        }
+
+        public ActionResult RemoveCart(int id)
+		{
+            List<ItemCart> gioHang = Carts;
+            ItemCart item = gioHang.Find(p => p.idCart == id);
+            
+            if (item != null)
+			{
+                gioHang.RemoveAll(s => s.idCart==id);
+			}
+            HttpContext.Session.Set("gioHang", gioHang);
+            return RedirectToAction("CartIndex");
+        }
+		private bool ProductExists(int id)
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        public ActionResult OrderProduct()
+        {
+            using (TransactionScope tranScope = new TransactionScope())
+            {
+                try
+                {
+                    SaleOrder order = new SaleOrder();
+                    if (_context.SaleOrder.Select(s => s.Id).Count() == 0)
+                    {
+                        order.Id = 1;
+                    }
+                    else
+                    {
+                        int p = _context.SaleOrder.Select(s => s.Id).Max();
+                        order.Id = p;
+                        order.Id++;
+                    }
+                    order.CreatedDate = DateTime.Now;
+                    order.Amount = totalCart();
+                    _context.SaleOrder.Add(order);
+                    _context.SaveChangesAsync();
+                    List<ItemCart> carts = Carts;//lấy giỏ hàng
+                    foreach (var item in carts)
+                    {
+                        OrderDetail d = new Models.OrderDetail();
+
+                        if (_context.OrderDetail.Select(s => s.Id).Count() == 0)
+                        {
+                            d.Id = 1;
+                        }
+                        else
+                        {
+                            int p = _context.OrderDetail.Select(s => s.Id).Max();
+                            d.Id = p;
+                            d.Id++;
+                        }
+                        d.OrderId = order.Id;
+                        d.ProductId = item.idCart;
+                        d.Num = item.quantity.ToString();
+                        d.UnitPrice = item.priceCart;
+
+
+                        _context.OrderDetail.Add(d);
+                    }
+                    _context.SaveChangesAsync();
+                    tranScope.Complete();
+                    var data = HttpContext.Session.Get<List<ItemCart>>("gioHang");
+                    data = null;
+                    HttpContext.Session.Set("gioHang", data);
+                }
+                catch (Exception)
+                {
+                    tranScope.Dispose();
+                    return RedirectToAction("CartIndex");
+
+                }
+            }
+            return View();
+        }
+
     }
 }

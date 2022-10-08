@@ -27,7 +27,9 @@ namespace testNetCoreWebApp.Data
         public virtual DbSet<SaleOrder> SaleOrder { get; set; }
         public virtual DbSet<User> User { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //public virtual DbSet<ItemCart> ItemCart { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {

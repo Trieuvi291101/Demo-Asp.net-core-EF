@@ -1,175 +1,72 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
+﻿
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
-}
-
-/*trang chủ*/
- .product__panel-item:last-child {
-    border-right: 1px solid #999;
-}
-
-.product__panel-item {
-    border: 1px solid #999;
-    border-right: none;
-}
-
-.product__panel-img-wrap {
-    width: 80% !important;
-    margin-top: 10px;
-}
- .product__panel-link {
-    margin-top: 2.5rem;
-}
-
-.row.product__panel-wrap {
-}
-
-.product__panel {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -2.2rem;
-}
-
-.product__panel-item {
-    margin-bottom: 2rem;
-    padding: 0 0.75rem;
-    cursor: pointer;
-}
-
-.product__panel-item-wrap {
-    background: var(--white-color);
-    padding: 1rem 1.5rem;
-    position: relative;
-}
-
-@media (max-width: 991px) {
-    .product__panel-item-wrap {
-        padding: 0.5rem 1rem;
-    }
-
-        .product__panel-item-wrap .product__panel-img-wrap {
-            height: 100%;
-        }
-}
-
-.product__panel-img-wrap {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 16.8rem;
-    justify-content: center;
-    align-items: center;
-}
-
-.product__panel-img {
-    max-width: 100%;
-    transition: 0.3s;
-}
-
-    .product__panel-img:hover,
-    .product__sidebar-item-img:hover,
-    .bestselling__product-img:hover {
-        transform: scale(1.1);
-    }
-
-.product__panel-heading {
-}
-
-.product__panel-link {
-    font-size: 1.5rem;
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: 400;
-    display: block;
-    margin-top: 3.5rem;
-    transition: 0.2s;
-    height: 3.8rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.product__panel-link:hover {
-    color: var(--black-color);
-    text-decoration: none;
-}
-.product__panel-price {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-
-.product__panel-price-current {
-    font-size: 1.6rem;
-    color: var(--primary-color);
-    font-weight: 500;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }

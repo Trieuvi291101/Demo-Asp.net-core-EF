@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ItemCart>
+@{
+    ViewData["Title"] = "CartIndex";
+}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table">
+                    @*if(@Model.All() == null){
+        <td><p>@ViewData["Null"]</p></td>
+        }*@
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Image</th>
+                                <th class="product-name">Product</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-total">Total</th>
+                                <th class="product-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <img class="card-img-top pro-img" style="height:50px; width:50px;" src="@("~/image/"+ item.Image)" asp-append-version="true" />
+                                    </td>
+
+                                    <td class="product-name">
+                                        <h2 class="h5 text-black">@item.NameCart</h2>
+                                    </td>
+                                    <td>@item.priceCart</td>
+                                    <td>
+                                        <div class="input-group mb-3" style="max-width: 120px;">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                            </div>
+                                            <input type="text" class="form-control text-center" value="@item.quantity" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item.total</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-danger text-light waves-effect width-md waves-light"><a asp-action="RemoveCart" asp-route-id="@item.idCart" class="text-light">Remove</a></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="3" class="text-right"><p>TOTAL:</p></td>
+                                <td colspan="1"><p>@ViewData["countCart"]</p></td>
+                                <td colspan="1"><p>@ViewData["totalCart"]</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-danger text-light waves-effect width-md waves-light"><a asp-action="ClearCart" class="text-light">Clear All</a></button>
+                    <button type="button" class="btn btn-success text-light waves-effect width-md waves-light text-right"><a asp-action="OrderProduct" class="text-light">Order</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

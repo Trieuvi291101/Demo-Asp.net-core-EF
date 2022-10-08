@@ -11,16 +11,12 @@ using Microsoft.EntityFrameworkCore;
 using testNetCoreWebApp.Data;
 using testNetCoreWebApp.Models;
 using testNetCoreWebApp.Areas.Identity.Data;
-using Unity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace testNetCoreWebApp.Controllers
 {
     public class UsersController : Controller
     {
         private readonly saledbContext _context;
-
-		public object Session { get; private set; }
 
 		public UsersController(saledbContext context)
         {

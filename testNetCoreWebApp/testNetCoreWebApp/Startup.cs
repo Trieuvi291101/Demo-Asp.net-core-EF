@@ -27,6 +27,11 @@ namespace DemoCrubCore
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDistributedMemoryCache();
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
             services.AddAuthentication();
             services.AddDbContext<saledbContext>(u=>u.UseSqlServer("Data Source=DESKTOP-982V19O;Initial Catalog=saledb;Integrated Security=True; trusted_connection=yes "));
         
@@ -50,6 +55,8 @@ namespace DemoCrubCore
             
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -58,7 +65,7 @@ namespace DemoCrubCore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Products}/{action=Index}/{id?}");
+                    pattern: "{controller=Products}/{action=Store}/{id?}");
 
                 endpoints.MapRazorPages();
             });
